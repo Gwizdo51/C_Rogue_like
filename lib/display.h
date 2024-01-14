@@ -84,6 +84,11 @@ Initialises the console window with the correct size.
 void init_window();
 
 /*
+Clears the console screen.
+*/
+void cls();
+
+/*
 Places the cursor at the given coordinates on the console.
 
 PARAMETERS
@@ -136,10 +141,46 @@ GAME *game_state
 void draw_game_on_screen(GAME *game_state);
 
 /*
+Returns a wall character for a wall tile based on the adjacent tiles.
 
+PARAMETERS
+----------
+unsigned char top_tile
+    The tile directly above
+unsigned char bottom_tile
+    The tile directly below
+unsigned char left_tile
+    The tile directly left
+unsigned char right_tile
+    The tile directly right
+
+RETURNS
+-------
+char
+    The wall character to display on the screen
 */
 char generate_wall_char(unsigned char top_tile, unsigned char bottom_tile, unsigned char left_tile, unsigned char right_tile);
+
+/*
+This function compares the characters of the previous and the next frame, and
+only displays the one that have changed.
+
+PARAMETERS
+----------
+GAME *game_state
+    The pointer to the the current game state
+*/
 void update_screen(GAME *game_state);
+
+/*
+Returns the text color for the character to display, based on what
+it represents.
+
+PARAMETERS
+----------
+char char_to_display
+    The character to display
+*/
 void set_char_color(char char_to_display);
 
 

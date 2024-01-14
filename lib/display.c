@@ -45,6 +45,24 @@ void init_window() {
 }
 
 
+void cls() {
+    const HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    COORD topLeft = { 0, 0 };
+    DWORD length, written;
+
+    // get the info of the console screen buffer
+    GetConsoleScreenBufferInfo(hStdout, &csbi);
+    // fill the buffer with spaces
+    length = csbi.dwSize.X * csbi.dwSize.Y;
+    FillConsoleOutputCharacter(hStdout, TEXT(' '), length, topLeft, &written);
+    // reset the color attributes
+    FillConsoleOutputAttribute(hStdout, csbi.wAttributes, length, topLeft, &written);
+    // place the cursor on at the top left of the screen
+    SetConsoleCursorPosition(hStdout, topLeft);
+}
+
+
 void set_cursor_position(int x, int y) {
     const HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD coord = {
@@ -116,7 +134,6 @@ void draw_game_on_screen(GAME *game_state) {
                         thing = *(*(map_things + Y_map) + X_map);
                         if (thing == THING_NONE) {
                             // hide the tile if it is not visible
-                            // if ((*(*(map_fow + Y_map) + X_map) & FLAG_FOW_VISIBLE) != 0) {
                             if ((*(*(map_fow + Y_map) + X_map) & FLAG_FOW_VISIBLE) != 0 || !fow_toggle) {
                                 *(*(new_screen + index_line_display) + index_column_display) = CHAR_ROOM_FLOOR;
                             }
@@ -126,7 +143,6 @@ void draw_game_on_screen(GAME *game_state) {
                         }
                         else if (thing == THING_GOLD) {
                             // hide the tile if it is not visible
-                            // if ((*(*(map_fow + Y_map) + X_map) & FLAG_FOW_VISIBLE) != 0) {
                             if ((*(*(map_fow + Y_map) + X_map) & FLAG_FOW_VISIBLE) != 0 || !fow_toggle) {
                                 *(*(new_screen + index_line_display) + index_column_display) = CHAR_THING_GOLD;
                             }
@@ -160,19 +176,15 @@ void draw_game_on_screen(GAME *game_state) {
                 else if (tile == TILE_ROOM_WALL) {
                     // get the top, bottom, left and right tile from the current tile
                     // top_tile = *(*(map + Y - 1) + X);
-                    // if (Y_map == 0 || (*(*(map_fow + Y_map - 1) + X_map) & FLAG_FOW_DISCOVERED) == 0) {top_tile = TILE_FILL;}
                     if (Y_map == 0 || ((*(*(map_fow + Y_map - 1) + X_map) & FLAG_FOW_DISCOVERED) == 0 && fow_toggle)) {top_tile = TILE_FILL;}
                     else {top_tile = *(*(map_dungeon + Y_map - 1) + X_map);}
                     // bottom_tile = *(*(map + Y + 1) + X);
-                    // if (Y_map == MAP_HEIGHT - 1 || (*(*(map_fow + Y_map + 1) + X_map) & FLAG_FOW_DISCOVERED) == 0) {bottom_tile = TILE_FILL;}
                     if (Y_map == MAP_HEIGHT - 1 || ((*(*(map_fow + Y_map + 1) + X_map) & FLAG_FOW_DISCOVERED) == 0 && fow_toggle)) {bottom_tile = TILE_FILL;}
                     else {bottom_tile = *(*(map_dungeon + Y_map + 1) + X_map);}
                     // left_tile = *(*(map + Y) + X - 1);
-                    // if (X_map == 0 || (*(*(map_fow + Y_map) + X_map - 1) & FLAG_FOW_DISCOVERED) == 0) {left_tile = TILE_FILL;}
                     if (X_map == 0 || ((*(*(map_fow + Y_map) + X_map - 1) & FLAG_FOW_DISCOVERED) == 0 && fow_toggle)) {left_tile = TILE_FILL;}
                     else {left_tile = *(*(map_dungeon + Y_map) + X_map - 1);}
                     // right_tile = *(*(map + Y) + X + 1);
-                    // if (X_map == MAP_WIDTH - 1 || (*(*(map_fow + Y_map) + X_map + 1) & FLAG_FOW_DISCOVERED) == 0) {right_tile = TILE_FILL;}
                     if (X_map == MAP_WIDTH - 1 || ((*(*(map_fow + Y_map) + X_map + 1) & FLAG_FOW_DISCOVERED) == 0 && fow_toggle)) {right_tile = TILE_FILL;}
                     else {right_tile = *(*(map_dungeon + Y_map) + X_map + 1);}
                     *(*(new_screen + index_line_display) + index_column_display) = generate_wall_char(top_tile, bottom_tile, left_tile, right_tile);
@@ -257,7 +269,6 @@ char generate_wall_char(unsigned char top_tile, unsigned char bottom_tile, unsig
 // }
 
 
-// void update_screen(char **current, char **new) {
 void update_screen(GAME *game_state) {
     INDEX index_line_display, index_column_display;
     // for each characters of new, if it is different from the same

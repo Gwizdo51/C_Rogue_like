@@ -25,6 +25,8 @@ int main() {
 
     // init the game state
     init_game_state(&game_state);
+    // clear the screen
+    cls();
 
     quit_game = FALSE;
     // while the game is not over exited ...
@@ -42,5 +44,6 @@ int main() {
         quit_game = play_level(&game_state);
     }
 
+    cls();
     return EXIT_SUCCESS;
 }
