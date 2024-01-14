@@ -29,7 +29,7 @@ Initialises the game state.
 PARAMETERS
 ----------
 GAME *game_state
-    The pointer to the current game state
+    The pointer to the current game state.
 */
 void init_game_state(GAME *game_state);
 
@@ -39,7 +39,7 @@ Handles the gameplay of the current level.
 PARAMETERS
 ----------
 GAME *game_state
-    The pointer to the the current game state
+    The pointer to the the current game state.
 
 RETURNS
 -------
@@ -54,9 +54,9 @@ Try to move the player character in the given direction.
 PARAMETERS
 ----------
 GAME *game_state
-    The pointer to the the current game state
+    The pointer to the the current game state.
 DIRECTION direction
-    The direction in which the player attempts to move its character
+    The direction in which the player attempts to move its character.
 
 RETURNS
 -------
@@ -71,7 +71,7 @@ Updates the fog of war according to the player position.
 PARAMETERS
 ----------
 GAME *game_state
-    The pointer to the the current game state
+    The pointer to the the current game state.
 */
 void update_fow(GAME *game_state);
 
@@ -97,14 +97,14 @@ Whether a set of coordinates is inside a rectangle.
 PARAMETERS
 ----------
 COORD coords
-    The coordinates of the point to check
+    The coordinates of the point to check.
 RECTANGLE rect
-    The rectangle to check against the coordinates
+    The rectangle to check against the coordinates.
 
 RETURNS
 -------
 BOOL
-    Whether the coordinates are inside the rectangle
+    Whether the coordinates are inside the rectangle.
 */
 BOOL is_inside_rect(COORD coords, RECTANGLE rect);
 

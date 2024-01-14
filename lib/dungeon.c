@@ -10,7 +10,7 @@ add a random amount of additional corridors from the ones in the graph (total nu
 */
 void generate_dungeon(GAME *game_state) {
     LIST list_graph_edges = ll_create(sizeof(GRAPH_EDGE));
-    // clear the dungeon and THING map
+    // clear the dungeon map, the things map and the FOW map
     clear_map(game_state);
     // generate a random number of rooms
     generate_rooms(&game_state->list_rooms);
@@ -33,14 +33,12 @@ void generate_dungeon(GAME *game_state) {
     // draw the dungeon on the map
     draw_dungeon_on_map(&game_state->list_rooms, &list_graph_edges, game_state->map_dungeon);
     // place the stairs and the player on the map
-    generate_things(&game_state->list_rooms, game_state);
+    // generate_things(&game_state->list_rooms, game_state);
+    generate_things(game_state);
     ll_free(&list_graph_edges);
 }
 
 
-/*
-Sets all the tiles on the map to FILL.
-*/
 void clear_map(GAME *game_state) {
     unsigned short X, Y;
     for (Y = 0; Y < MAP_HEIGHT; Y++) {
@@ -87,7 +85,7 @@ void generate_rooms(LIST *list_rooms) {
     number_of_rooms = rand_range(MIN_ROOMS, MAX_ROOMS);
     for (index_room = 0; index_room < number_of_rooms; index_room++) {
         // create a new room with a random size
-        // width and height are odd numbers so that the rooms always have a center tile
+        // width and height are odd numbers so that the rooms always have an unambiguous center tile
         new_room.rectangle.width = rand_odd_range(ROOM_MIN_WIDTH, ROOM_MAX_WIDTH);
         new_room.rectangle.height = rand_odd_range(ROOM_MIN_HEIGHT, ROOM_MAX_HEIGHT);
         new_room.rectangle.surface = new_room.rectangle.width * new_room.rectangle.height;
@@ -609,14 +607,14 @@ COORD get_room_center_snapped(ROOM *room) {
 }
 
 
-void generate_things(LIST *list_rooms, GAME *game_state) {
+void generate_things(GAME *game_state) {
     INDEX index_room, index_tile, random_number;
     short X, Y;
     ROOM *current_room_pointer;
     COORD current_coord;
     LIST list_free_coords = ll_create(sizeof(COORD));
-    for (index_room = 0; index_room < ll_length(list_rooms); index_room++) {
-        current_room_pointer = (ROOM*) ll_get(list_rooms, index_room);
+    for (index_room = 0; index_room < ll_length(&game_state->list_rooms); index_room++) {
+        current_room_pointer = (ROOM*) ll_get(&game_state->list_rooms, index_room);
         // list the coordinates of all the free tiles of the room
         for (
             X = current_room_pointer->rectangle.origin.X;
