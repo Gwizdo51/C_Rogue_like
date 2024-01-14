@@ -34,7 +34,7 @@ void ll_append(LIST *linked_list, void *new_data) {
     LIST_NODE *new_node = (LIST_NODE*) malloc(sizeof(LIST_NODE));
     new_node->next_node = NULL;
     new_node->data_pointer = malloc(linked_list->data_size);
-    // copy the data byte per byte (a char is 1 byte) -> use memcpy()
+    // copy the data byte per byte (a char is 1 byte) -> use memcpy() instead
     // for (i=0; i<data_size; i++) {
     //     *(char*)(new_node->data_pointer + i) = *(char*)(new_data + i);
     // }
@@ -54,20 +54,24 @@ void ll_append(LIST *linked_list, void *new_data) {
     }
 }
 
-void * ll_get(LIST *linked_list, INDEX index) {
+void *ll_get(LIST *linked_list, INDEX index) {
+    // exit with a failure code if the index is out of range
     if (index >= ll_length(linked_list)) {
         exit(EXIT_FAILURE);
     }
+    // look for the node at the given index
     INDEX current_index = 0;
     LIST_NODE *current_node = linked_list->first_node;
     while (current_index != index) {
         current_node = current_node->next_node;
         current_index++;
     }
+    // return the pointer to the data contained in the node
     return current_node->data_pointer;
 }
 
 void ll_swap(LIST *linked_list, INDEX index_1, INDEX index_2) {
+    // exit with a failure code if either index is out of range
     INDEX list_length = ll_length(linked_list);
     if (index_1 >= list_length) {
         exit(EXIT_FAILURE);
@@ -75,6 +79,7 @@ void ll_swap(LIST *linked_list, INDEX index_1, INDEX index_2) {
     if (index_2 >= list_length) {
         exit(EXIT_FAILURE);
     }
+    // swap the data contained in the nodes
     void *data_buffer = malloc(linked_list->data_size);
     // memcpy(destination, source, size)
     memcpy(data_buffer, ll_get(linked_list, index_1), linked_list->data_size);
@@ -84,6 +89,7 @@ void ll_swap(LIST *linked_list, INDEX index_1, INDEX index_2) {
 }
 
 void ll_remove(LIST *linked_list, INDEX index) {
+    // exit with a failure code if the index is out of range
     if (index >= ll_length(linked_list)) {
         exit(EXIT_FAILURE);
     }
@@ -114,11 +120,13 @@ void ll_remove(LIST *linked_list, INDEX index) {
 
 void ll_free(LIST *linked_list) {
     LIST_NODE *current_node = linked_list->first_node, *next_node;
+    // free every node of the list
     while (current_node) {
         next_node = current_node->next_node;
         free(current_node->data_pointer);
         free(current_node);
         current_node = next_node;
     }
+    // set the first node to NULL
     linked_list->first_node = NULL;
 }

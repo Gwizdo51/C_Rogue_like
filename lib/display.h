@@ -94,9 +94,9 @@ Places the cursor at the given coordinates on the console.
 PARAMETERS
 ----------
 int x
-    The X coordinate to give the cursor
+    The X coordinate to give the cursor.
 int y
-    The Y coordinate to give the cursor
+    The Y coordinate to give the cursor.
 */
 void set_cursor_position(int x, int y);
 
@@ -106,9 +106,9 @@ Sets the text and background color for the next characters to be printed on the 
 PARAMETERS
 ----------
 unsigned char text_color
-    The number of the color to give to the text
+    The number of the color to give to the text.
 unsigned char background_color
-    The number of the color to give to the background
+    The number of the color to give to the background.
 */
 void set_color(unsigned char text_color, unsigned char background_color);
 
@@ -124,9 +124,9 @@ Initialises the screen character matrices.
 PARAMETERS
 ----------
 char ***current
-    The pointer to the "current" map of characters to display
+    The pointer to the "current" map of characters to display.
 char ***new
-    The pointer to the "new" map of characters to display
+    The pointer to the "new" map of characters to display.
 */
 void init_screen_chars_matrices(char ***current, char ***new);
 
@@ -136,7 +136,7 @@ Draws the game on the "new" screen character matrix.
 PARAMETERS
 ----------
 GAME *game_state
-    The pointer to the the current game state
+    The pointer to the the current game state.
 */
 void draw_game_on_screen(GAME *game_state);
 
@@ -146,18 +146,18 @@ Returns a wall character for a wall tile based on the adjacent tiles.
 PARAMETERS
 ----------
 unsigned char top_tile
-    The tile directly above
+    The tile directly above.
 unsigned char bottom_tile
-    The tile directly below
+    The tile directly below.
 unsigned char left_tile
-    The tile directly left
+    The tile directly left.
 unsigned char right_tile
-    The tile directly right
+    The tile directly right.
 
 RETURNS
 -------
 char
-    The wall character to display on the screen
+    The wall character to display on the screen.
 */
 char generate_wall_char(unsigned char top_tile, unsigned char bottom_tile, unsigned char left_tile, unsigned char right_tile);
 
@@ -168,7 +168,7 @@ only displays the one that have changed.
 PARAMETERS
 ----------
 GAME *game_state
-    The pointer to the the current game state
+    The pointer to the the current game state.
 */
 void update_screen(GAME *game_state);
 
@@ -179,7 +179,7 @@ it represents.
 PARAMETERS
 ----------
 char char_to_display
-    The character to display
+    The character to display.
 */
 void set_char_color(char char_to_display);
 
