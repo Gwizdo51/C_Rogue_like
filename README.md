@@ -14,11 +14,15 @@
 
 # Mini-game - Rogue-like in C
 
-<center>
+<!-- <center>
 
 ![game screenshot](docs/game_screenshot.png)
 
-</center>
+</center> -->
+
+<div style="text-align: center;">
+    <img src="docs/game_screenshot.png">
+</div>
 
 This repo contains the code for a Rogue-like game with a command prompt interface. This game was created as a semester project for the ESAIP engineering school.
 
